@@ -1,0 +1,26 @@
+table, th, td 
+{  
+	font-family: Veranda, sans-serif;
+	color: rgb(54,84,34);
+	padding: 7px;
+	border-top-style: solid;
+	border-top-color: rgb(151,151,21);
+	border-width: thin;
+}
+caption 
+{ 
+	font-weight: bold;
+}
+th 
+{
+	text-align: left;
+}
+tfoot
+{
+	font-style: italic;
+	text-align: center;
+}
+a 
+{
+	color: rgb(54,84,34);
+}

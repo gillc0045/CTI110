@@ -1,0 +1,5293 @@
+
+<!-- saved from url=(0055)http://www.stevemorse.org/hebrew/keyboardgenerator.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+      Generating a Virtual Keyboard in One Step
+    </title>
+     
+    <script src="./Generating a Virtual Keyboard in One Step_files/email.js.download"></script>
+    <script src="./Generating a Virtual Keyboard in One Step_files/openwindow.js.download"></script>
+
+    <script>
+
+      var charSets = [
+        "0x0000-0x007F|0-127|", // for use when the range radio button is selected
+        "0x0000-0x007F|0-127|Basic Latin",
+        "0x0080-0x00FF|128-255|Latin-1 Supplement",
+        "0x0100-0x017F|256-383|Latin Extended-A",
+        "0x0180-0x024F|384-591|Latin Extended-B",
+        "0x0250-0x02AF|592-687|IPA Extensions",
+        "0x02B0-0x02FF|688-767|Spacing Modifier Letters",
+        "0x0300-0x036F|768-879|Combining Diacritical Marks",
+        "0x0370-0x03FF|880-1023|Greek",
+        "0x0400-0x04FF|1024-1279|Cyrillic",
+        "0x0530-0x058F|1328-1423|Armenian",
+        "0x0590-0x05FF|1424-1535|Hebrew",
+        "0x0600-0x06FF|1536-1791|Arabic",
+        "0x0700-0x074F|1792-1871|Syriac",
+        "0x0780-0x07BF|1920-1983|Thaana",
+        "0x0900-0x097F|2304-2431|Devanagari",
+        "0x0980-0x09FF|2432-2559|Bengali",
+        "0x0A00-0x0A7F|2560-2687|Gurmukhi",
+        "0x0A80-0x0AFF|2688-2815|Gujarati",
+        "0x0B00-0x0B7F|2816-2943|Oriya",
+        "0x0B80-0x0BFF|2944-3071|Tamil",
+        "0x0C00-0x0C7F|3072-3199|Telugu",
+        "0x0C80-0x0CFF|3200-3327|Kannada",
+        "0x0D00-0x0D7F|3328-3455|Malayalam",
+        "0x0D80-0x0DFF|3456-3583|Sinhala",
+        "0x0E00-0x0E7F|3584-3711|Thai",
+        "0x0E80-0x0EFF|3712-3839|Lao",
+        "0x0F00-0x0FFF|3840-4095|Tibetan",
+        "0x1000-0x109F|4096-4255|Myanmar",
+        "0x10A0-0x10FF|4256-4351|Georgian",
+        "0x1100-0x11FF|4352-4607|Hangul Jamo",
+        "0x1200-0x137F|4608-4991|Ethiopic",
+        "0x13A0-0x13FF|5024-5119|Cherokee",
+        "0x1400-0x167F|5120-5759|Unified Canadian Aboriginal Syllabics",
+        "0x1680-0x169F|5760-5791|Ogham",
+        "0x16A0-0x16FF|5792-5887|Runic",
+        "0x1780-0x17FF|6016-6143|Khmer",
+        "0x1800-0x18AF|6144-6319|Mongolian",
+        "0x1E00-0x1EFF|7680-7935|Latin Extended Additional",
+        "0x1F00-0x1FFF|7936-8191|Greek Extended",
+        "0x2000-0x206F|8192-8303|General Punctuation",
+        "0x2070-0x209F|8304-8351|Superscripts and Subscripts",
+        "0x20A0-0x20CF|8352-8399|Currency Symbols",
+        "0x20D0-0x20FF|8400-8447|Combining Marks for Symbols",
+        "0x2100-0x214F|8448-8527|Letterlike Symbols",
+        "0x2150-0x218F|8528-8591|Number Forms",
+        "0x2190-0x21FF|8592-8703|Arrows",
+        "0x2200-0x22FF|8704-8959|Mathematical Operators",
+        "0x2300-0x23FF|8960-9215|Miscellaneous Technical",
+        "0x2400-0x243F|9216-9279|Control Pictures",
+        "0x2440-0x245F|9280-9311|Optical Character Recognition",
+        "0x2460-0x24FF|9312-9471|Enclosed Alphanumerics",
+        "0x2500-0x257F|9472-9599|Box Drawing",
+        "0x2580-0x259F|9600-9631|Block Elements",
+        "0x25A0-0x25FF|9632-9727|Geometric Shapes",
+        "0x2600-0x26FF|9728-9983|Miscellaneous Symbols",
+        "0x2700-0x27BF|9984-10175|Dingbats",
+        "0x2800-0x28FF|10240-10495|Braille Patterns",
+        "0x2E80-0x2EFF|11904-12031|CJK Radicals Supplement",
+        "0x2F00-0x2FDF|12032-12255|Kangxi Radicals",
+        "0x2FF0-0x2FFF|12272-12287|Ideographic Description Characters",
+        "0x3000-0x303F|12288-12351|CJK Symbols and Punctuation",
+        "0x3040-0x309F|12352-12447|Hiragana",
+        "0x30A0-0x30FF|12448-12543|Katakana",
+        "0x3100-0x312F|12544-12591|Bopomofo",
+        "0x3130-0x318F|12592-12687|Hangul Compatibility Jamo",
+        "0x3190-0x319F|12688-12703|Kanbun",
+        "0x31A0-0x31BF|12704-12735|Bopomofo Extended",
+        "0x3200-0x32FF|12800-13055|Enclosed CJK Letters and Months",
+        "0x3300-0x33FF|13056-13311|CJK Compatibility",
+        "0x3400-0x4DB5|13312-19893|CJK Unified Ideographs Extension A",
+        "0x4E00-0x9FFF|19968-40959|CJK Unified Ideographs",
+        "0xA000-0xA48F|40960-42127|Yi Syllables",
+        "0xA490-0xA4CF|42128-42191|Yi Radicals",
+        "0xAC00-0xD7A3|44032-55203|Hangul Syllables",
+        "0xD800-0xDB7F|55296-56191|High Surrogates",
+        "0xDB80-0xDBFF|56192-56319|High Private Use Surrogates",
+        "0xDC00-0xDFFF|56320-57343|Low Surrogates",
+        "0xE000-0xF8FF|57344-63743|Private Use",
+        "0xF900-0xFAFF|63744-64255|CJK Compatibility Ideographs",
+        "0xFB00-0xFB4F|64256-64335|Alphabetic Presentation Forms",
+        "0xFB50-0xFDFF|64336-65023|Arabic Presentation Forms-A",
+        "0xFE20-0xFE2F|65056-65071|Combining Half Marks",
+        "0xFE30-0xFE4F|65072-65103|CJK Compatibility Forms",
+        "0xFE50-0xFE6F|65104-65135|Small Form Variants",
+        "0xFE70-0xFEFE|65136-65278|Arabic Presentation Forms-B",
+        "0xFEFF-0xFEFF|65279-65279|Specials",
+        "0xFF00-0xFFEF|65280-65519|Halfwidth and Fullwidth Forms",
+        "0xFFF0-0xFFFD|65520-65533|Specials"
+      ];
+
+      function dechex(x) {
+        return parseInt(x, 10).toString(16);
+      }
+
+      function Init() {
+        document.myform.charset.selectedIndex = 1; // basic latin
+        document.myform.type[0].checked = true;
+        UpdateKeyboard();
+      }
+
+      function ClearKeycaps() {
+        for (i=0; i<document.myform.rows.value; i++) {
+          for (j=0; j<document.myform.columns.value; j++) {
+            document.myform['key' + i + "_" + j].selectedIndex = 0;
+          }
+        }
+      }
+
+      function UpdateType(type) {
+        for (var i=0; i<document.myform.type.length; i++) {
+          if (document.myform.type[i].value == type) {
+            document.myform.type[i].checked = true;
+          } else {
+            document.myform.type[i].checked = false;
+          }
+        }
+        document.myform.rows.selectedIndex = 0;
+        document.myform.columns.selectedIndex = 0;
+        UpdateKeyboard();
+      }
+
+      function UpdateKeyboard() {
+
+        var charset = document.myform.charset[document.myform.charset.selectedIndex].text;
+        if (charset == "Basic Latin") { // 3x10
+          minRowsIndex = 3-1;
+          minColumnsIndex = 10-1;
+        } else if (charset == "Greek") { // 3x8
+          minRowsIndex = 3-1;
+          minColumnsIndex = 8-1;
+        } else if (charset == "Cyrillic") { // 3x11
+          minRowsIndex = 3-1;
+          minColumnsIndex = 11-1;
+        } else if (charset == "Hebrew") { // 3x9
+          minRowsIndex = 3-1;
+          minColumnsIndex = 9-1;
+        } else if (charset == "Arabic") { // 4x7
+          minRowsIndex = 4-1;
+          minColumnsIndex = 7-1;
+        } else if (charset == "Hiragana" || charset == "Katakana") { // 6x16
+          minRowsIndex = 6-1;
+          minColumnsIndex = 16-1;
+        } else { // 3x10
+          minRowsIndex = 3-1;
+          minColumnsIndex = 10-1;
+        }
+
+        if (document.myform.rows.selectedIndex < minRowsIndex) {
+          document.myform.rows.selectedIndex = minRowsIndex;
+        }
+        if (document.myform.columns.selectedIndex < minColumnsIndex) {
+          document.myform.columns.selectedIndex = minColumnsIndex;
+        }
+
+
+        // determine which radio button is checked -- language or range
+        var type = "";
+        for (var i=0; i<document.myform.type.length; i++) {
+          if (document.myform.type[i].checked) {
+            type = document.myform.type[i].value;
+            break;
+          }
+        }
+
+        var startCode, endCode;
+        var code = "";
+        if (type == "language") {
+          var charSet = charSets[document.myform.charset[document.myform.charset.selectedIndex].value];
+          var charSetArray = charSet.split("|"); 
+          var hexrange = charSetArray[0];
+          var decrange = charSetArray[1];
+          var hexlimitsArray = hexrange.split("-");
+          var declimitsArray = decrange.split("-");
+          var startCode = parseInt(declimitsArray[0], 10);
+          var endCode = parseInt(declimitsArray[1], 10);
+
+          document.myform.low1.selectedIndex = hexlimitsArray[0]/256;
+          document.myform.low2.selectedIndex = hexlimitsArray[0]%256;
+          document.myform.high1.selectedIndex = hexlimitsArray[1]/256;
+          document.myform.high2.selectedIndex = hexlimitsArray[1]%256;
+        } else {
+          startCode = 256 * document.myform.low1.selectedIndex - (-document.myform.low2.selectedIndex);          
+          endCode = 256 * document.myform.high1.selectedIndex - (-document.myform.high2.selectedIndex);          
+          document.myform.charset.selectedIndex = 0;
+        }
+        var hexStringLength = dechex(endCode).length;
+
+        var options = "<option></option>\n";
+        for (var i=startCode; i<=endCode; i++) {
+
+          var hexString = dechex(i).toUpperCase();
+          while (hexString.length < 6) {
+            hexString = "0"  + hexString;
+          }
+          if (hexStringLength <= 2) {
+            hex1 = hexString.substr(4, 1);
+            hex2 = hexString.substr(5, 1);
+            space2_3 = ""; space4_5 = "";
+            hex3 = ""; hex4 = ""; hex5 =  ""; hex6 = "";
+          } else if (hexStringLength <= 4) {
+            hex1 = hexString.substr(2, 1);
+            hex2 = hexString.substr(3, 1);
+            hex3 = hexString.substr(4, 1);
+            hex4 = hexString.substr(5, 1);
+            space2_3 = " "; space4_5 = "";
+            hex5 =  ""; hex6 = "";
+          } else if (hexStringLength <= 6) {
+            hex1 = hexString.substr(0, 1);
+            hex2 = hexString.substr(1, 1);
+            hex3 = hexString.substr(2, 1);
+            hex4 = hexString.substr(3, 1);
+            hex5 = hexString.substr(4, 1);
+            hex6 = hexString.substr(5, 1);
+            space2_3 = " "; space4_5 = " ";
+          }
+          options += "<option>"+hex1+hex2+space2_3+hex3+hex4+space4_5+hex5+hex6+":&#" + i + ";</option>\n";
+        }
+
+        for (i=0; i<document.myform.rows.value; i++) {
+          code += "<table border='1'><tr>";
+          for (j=0; j<document.myform.columns.value; j++) {
+            code += "<td><select name='key" + i + "_" + j + "' onchange='GenerateCode();'>" + options + "</select></td>\n";
+          }
+          code += "</tr></table>";
+        }
+        document.getElementById("keyboard").innerHTML = code;
+
+        if (charset == "Basic Latin") {
+          document.myform.key0_0.selectedIndex = 81+1; // Q
+          document.myform.key0_1.selectedIndex = 87+1; // W
+          document.myform.key0_2.selectedIndex = 69+1; // E
+          document.myform.key0_3.selectedIndex = 82+1; // R
+          document.myform.key0_4.selectedIndex = 84+1; // T
+          document.myform.key0_5.selectedIndex = 89+1; // Y
+          document.myform.key0_6.selectedIndex = 85+1; // U
+          document.myform.key0_7.selectedIndex = 73+1; // I
+          document.myform.key0_8.selectedIndex = 79+1; // O
+          document.myform.key0_9.selectedIndex = 80+1; // P
+
+          document.myform.key1_0.selectedIndex = 65+1; // A
+          document.myform.key1_1.selectedIndex = 83+1; // S
+          document.myform.key1_2.selectedIndex = 68+1; // D
+          document.myform.key1_3.selectedIndex = 70+1; // F
+          document.myform.key1_4.selectedIndex = 71+1; // G
+          document.myform.key1_5.selectedIndex = 72+1; // H
+          document.myform.key1_6.selectedIndex = 74+1; // J
+          document.myform.key1_7.selectedIndex = 75+1; // K
+          document.myform.key1_8.selectedIndex = 76+1; // L
+
+          document.myform.key2_0.selectedIndex = 90+1; // Z
+          document.myform.key2_1.selectedIndex = 88+1; // X
+          document.myform.key2_2.selectedIndex = 67+1; // C
+          document.myform.key2_3.selectedIndex = 86+1; // V
+          document.myform.key2_4.selectedIndex = 66+1; // B
+          document.myform.key2_5.selectedIndex = 78+1; // N
+          document.myform.key2_6.selectedIndex = 77+1; // M
+        } else if (charset == "Greek") {
+          var cap = 33+1; // starting offset into dropdown list
+          for (i=0; i<document.myform.rows.selectedIndex+1; i++) {
+            for (j=0; j<document.myform.columns.selectedIndex+1; j++) {
+              if (cap == 50+1) { // skip over alternate sigma
+                cap++;
+              }
+              document.myform['key' + i + '_' + j].selectedIndex = cap++;
+            }
+          }
+        } else if (charset == "Cyrillic") {
+          var cap = 16+1; // starting offset into dropdown list
+          for (i=0; i<document.myform.rows.selectedIndex+1; i++) {
+            for (j=0; j<document.myform.columns.selectedIndex+1; j++) {
+              if (i==0 && j==6) { // special case Ё
+                document.myform['key' + i + '_' + j].selectedIndex = 1+1;
+              } else {
+                document.myform['key' + i + '_' + j].selectedIndex = cap++;
+              }
+            }
+          }
+        } else if (charset == "Hebrew") {
+          var cap = 64+1; // starting offset into dropdown list
+          for (i=0; i<document.myform.rows.selectedIndex+1; i++) {
+            for (j=document.myform.columns.selectedIndex; j>=0; j--) {
+              document.myform['key' + i + '_' + j].selectedIndex = cap++;
+            }
+          }
+        } else if (charset == "Arabic") {
+          var cap = 39+1; // starting offset into dropdown list
+          for (i=0; i<document.myform.rows.selectedIndex+1; i++) {
+            for (j=document.myform.columns.selectedIndex; j>=0; j--) {
+              if (cap == 41+1) { // skip 0629
+                cap++;
+              } else if (cap == 59+1) { // skip range from 063B to 0640
+                cap += 6;
+              } else if (cap == 73+1) { // skip 0649
+                cap++;
+              }
+              document.myform['key' + i + '_' + j].selectedIndex = cap++;
+            }
+          }
+        } else if (charset == "Hiragana" || charset == "Katakana") {
+          var cap = 1+1; // starting offset into dropdown list
+          for (i=0; i<document.myform.rows.selectedIndex+1; i++) {
+            for (j=0; j<document.myform.columns.selectedIndex+1; j++) {
+              if (i==5 && (j==0 || j==15)) { // skip first and last keys on last row
+                continue;
+              }
+              document.myform['key' + i + '_' + j].selectedIndex = cap++;
+            }
+          }
+        } else {
+        }
+
+        GenerateCode();
+      }
+
+      function GenerateCode() {
+        var code = "";
+        code += "<html>\n";
+        code += "  <head>\n";
+        code += "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n";
+        code += "    <s" + "cript src='http://stevemorse.org/selection.js'></sc" + "ript>\n";
+        code += "    <s" + "cript>\n";
+
+        code += "      function Keycap(letter) {\n";
+        code += "        if (letter == '') {\n";
+        code += "          document.write('<td>&nbsp;</td>')\n";
+        code += "        } else {\n";
+        code += "            document.write('<td><div align=\"center\">' +\n";
+        code += "                            '&nbsp;<a href=\"javascript:Insert(\\\'' + letter + '\\\');\"><span style=\"font-size:" + document.myform.percent.value + "%\">' + letter + '</span></a>&nbsp;' +\n";
+        code += "                            '</div></td>');\n";
+        code += "        }\n";
+        code += "      }\n";
+        code += "\n";
+        code += "      function StartTable() {\n";
+        code += "        document.write\n";
+        code += "          ('<table borderColor=\"#000000\" align=\"center\"' +\n";
+        code += "           ' cellSpacing=\"1\" cellPadding=\"0\" border=\"2\" bgColor=\"#ffcc99\"><tr>')\n";
+        code += "      }\n";
+        code += "\n";
+        code += "      function EndTable() {\n";
+        code += "        document.write('</tr></table>')\n";
+        code += "      }\n";
+        code += "\n";
+        code += "      function NextRow() {\n";
+        code += "        document.write('</tr><tr>')\n";
+        code += "      }\n";
+        code += "\n";
+        code += "      var selectedField = '';\n";
+        code += "\n";
+        code += "      function Insert(letter) {\n";
+        code += "        if (selectedField == '') {\n";
+        code += "          alert('You need to select (click in) one of the allowable fields before you can use this keyboard.');\n";
+        code += "          return;\n";
+        code += "        }\n";
+        code += "        var myText = selectedField.value;\n";
+        code += "        var leftPos = getSelectionStart(selectedField);\n";
+        code += "        var rightPos = getSelectionEnd(selectedField);\n";
+        code += "        myText = myText.substring(0,leftPos) + letter + myText.substring(rightPos, myText.length);\n";
+        code += "        selectedField.value = myText;\n";
+        code += "        setSelectionRange(selectedField, leftPos+1, leftPos+1);\n";
+        code += "        selectedField.focus();\n";
+        code += "      }\n";
+
+        code += "    </scr" + "ipt>\n";
+        code += "  </head>\n";
+        code += "  <body>\n";
+        code += "    <center>\n";
+        code += "      To enter text with this virtual keybord,<br> select a field and then click on the characters you want<br>\n";
+        code += "    </center>\n";
+        code += "    <sc" + "ript>\n";
+
+        code += "      StartTable();\n";
+        for (var i=0; i<document.myform.rows.value; i++) {
+          if (i > 0) {
+            code += "      NextRow();\n";
+          }
+          for (var j=0; j<document.myform.columns.value; j++) {
+            var key = document.myform["key" + i + "_" + j];
+            var keyText = key[key.selectedIndex].text;
+            var colon = keyText.indexOf(":");
+            
+            code += "      Keycap('" + keyText.substr(colon+1) + "');\n";
+          }
+        }
+        code += "      EndTable();\n";
+        code += "    </sc" + "ript>\n";
+        code += "    <br>\n";
+        code += "    Some fields that can be typed in with the virtual keyboard<br>\n";
+        code += "    left-to-right field <input onfocus='selectedField=this;' dir='ltr'><br>\n";
+        code += "    right-to-left field <input onfocus='selectedField=this;' dir='rtl'><br>\n";
+        code += "    <br>\n";
+        code += "    Some fields that can not be typed in with the virtual keyboard<br>\n";
+        code += "    left-to-right field <input onfocus='selectedField=\"\";' dir='ltr'><br>\n";
+        code += "    right-to-left field <input onfocus='selectedField=\"\";' dir='rtl'><br>\n";
+        code += "  </body>\n";
+        code += "</html>\n";
+        document.myform.code.value = code;
+      }
+
+      function GenerateHexOptions() {
+        for (var i = 0; i<=255; i++) {
+          var hexString = dechex(i).toUpperCase();
+          if (hexString.length < 2) {
+            hexString = "0"  + hexString;
+          }
+          document.write("<option value='" + i + "'>" + hexString + "</option>\n");
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body onload="Init()">
+
+    <center>
+      <font size="5">
+        Generating a Virtual Keyboard in One Step
+      </font>
+      <br><br>
+      <font size="4">
+        <script>emailhref()</script><a href="mailto:steve@stevemorse.org">Stephen P. Morse<script>document.write("</a>")</script></a>, San Francisco
+      </font>
+      <br>
+      <br>
+    </center>
+
+    <form name="myform">
+
+      <center>
+<!--
+        <input type="button" value="Frequently Asked Questions" onclick="window.location='faq.htm';">
+-->
+        <input type="button" value="Unicode/UTF8 Encodings" onclick="window.location=&#39;utf8.html&#39;;">
+        <input type="button" value="My Other Webpages" onclick="window.location=&#39;../index.html&#39;">
+        <br><br>
+      <b>This page lets you create a virtual keyboard widget for inclusion on a webpage</b><br>
+      </center>
+
+      <br>
+
+      <b>Select either a character set or a range of unicode characters</b><br>
+      <table>
+        <tbody><tr>
+          <td><input type="radio" name="type" value="language" onclick="UpdateKeyboard();"></td>
+          <td>Select Character Set</td>
+          <td colspan="5">
+            <select name="charset" onchange="UpdateType(&#39;language&#39;);">
+              <script>
+                for (var i=0; i<charSets.length; i++) {
+                  var charSet = charSets[i];
+                  charSetArray = charSet.split("|"); 
+                  document.write("<option value='" + i + "'>" + charSetArray[2] +"</option>\n");
+                }
+              </script><option value="0"></option>
+<option value="1">Basic Latin</option>
+<option value="2">Latin-1 Supplement</option>
+<option value="3">Latin Extended-A</option>
+<option value="4">Latin Extended-B</option>
+<option value="5">IPA Extensions</option>
+<option value="6">Spacing Modifier Letters</option>
+<option value="7">Combining Diacritical Marks</option>
+<option value="8">Greek</option>
+<option value="9">Cyrillic</option>
+<option value="10">Armenian</option>
+<option value="11">Hebrew</option>
+<option value="12">Arabic</option>
+<option value="13">Syriac</option>
+<option value="14">Thaana</option>
+<option value="15">Devanagari</option>
+<option value="16">Bengali</option>
+<option value="17">Gurmukhi</option>
+<option value="18">Gujarati</option>
+<option value="19">Oriya</option>
+<option value="20">Tamil</option>
+<option value="21">Telugu</option>
+<option value="22">Kannada</option>
+<option value="23">Malayalam</option>
+<option value="24">Sinhala</option>
+<option value="25">Thai</option>
+<option value="26">Lao</option>
+<option value="27">Tibetan</option>
+<option value="28">Myanmar</option>
+<option value="29">Georgian</option>
+<option value="30">Hangul Jamo</option>
+<option value="31">Ethiopic</option>
+<option value="32">Cherokee</option>
+<option value="33">Unified Canadian Aboriginal Syllabics</option>
+<option value="34">Ogham</option>
+<option value="35">Runic</option>
+<option value="36">Khmer</option>
+<option value="37">Mongolian</option>
+<option value="38">Latin Extended Additional</option>
+<option value="39">Greek Extended</option>
+<option value="40">General Punctuation</option>
+<option value="41">Superscripts and Subscripts</option>
+<option value="42">Currency Symbols</option>
+<option value="43">Combining Marks for Symbols</option>
+<option value="44">Letterlike Symbols</option>
+<option value="45">Number Forms</option>
+<option value="46">Arrows</option>
+<option value="47">Mathematical Operators</option>
+<option value="48">Miscellaneous Technical</option>
+<option value="49">Control Pictures</option>
+<option value="50">Optical Character Recognition</option>
+<option value="51">Enclosed Alphanumerics</option>
+<option value="52">Box Drawing</option>
+<option value="53">Block Elements</option>
+<option value="54">Geometric Shapes</option>
+<option value="55">Miscellaneous Symbols</option>
+<option value="56">Dingbats</option>
+<option value="57">Braille Patterns</option>
+<option value="58">CJK Radicals Supplement</option>
+<option value="59">Kangxi Radicals</option>
+<option value="60">Ideographic Description Characters</option>
+<option value="61">CJK Symbols and Punctuation</option>
+<option value="62">Hiragana</option>
+<option value="63">Katakana</option>
+<option value="64">Bopomofo</option>
+<option value="65">Hangul Compatibility Jamo</option>
+<option value="66">Kanbun</option>
+<option value="67">Bopomofo Extended</option>
+<option value="68">Enclosed CJK Letters and Months</option>
+<option value="69">CJK Compatibility</option>
+<option value="70">CJK Unified Ideographs Extension A</option>
+<option value="71">CJK Unified Ideographs</option>
+<option value="72">Yi Syllables</option>
+<option value="73">Yi Radicals</option>
+<option value="74">Hangul Syllables</option>
+<option value="75">High Surrogates</option>
+<option value="76">High Private Use Surrogates</option>
+<option value="77">Low Surrogates</option>
+<option value="78">Private Use</option>
+<option value="79">CJK Compatibility Ideographs</option>
+<option value="80">Alphabetic Presentation Forms</option>
+<option value="81">Arabic Presentation Forms-A</option>
+<option value="82">Combining Half Marks</option>
+<option value="83">CJK Compatibility Forms</option>
+<option value="84">Small Form Variants</option>
+<option value="85">Arabic Presentation Forms-B</option>
+<option value="86">Specials</option>
+<option value="87">Halfwidth and Fullwidth Forms</option>
+<option value="88">Specials</option>
+
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="radio" name="type" value="range" onclick="UpdateKeyboard();"></td>
+          <td>Unicode Hex Range is from</td>
+          <td>
+            <select name="low1" onchange="UpdateType(&#39;range&#39;);">
+              <script>GenerateHexOptions();</script><option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">0A</option>
+<option value="11">0B</option>
+<option value="12">0C</option>
+<option value="13">0D</option>
+<option value="14">0E</option>
+<option value="15">0F</option>
+<option value="16">10</option>
+<option value="17">11</option>
+<option value="18">12</option>
+<option value="19">13</option>
+<option value="20">14</option>
+<option value="21">15</option>
+<option value="22">16</option>
+<option value="23">17</option>
+<option value="24">18</option>
+<option value="25">19</option>
+<option value="26">1A</option>
+<option value="27">1B</option>
+<option value="28">1C</option>
+<option value="29">1D</option>
+<option value="30">1E</option>
+<option value="31">1F</option>
+<option value="32">20</option>
+<option value="33">21</option>
+<option value="34">22</option>
+<option value="35">23</option>
+<option value="36">24</option>
+<option value="37">25</option>
+<option value="38">26</option>
+<option value="39">27</option>
+<option value="40">28</option>
+<option value="41">29</option>
+<option value="42">2A</option>
+<option value="43">2B</option>
+<option value="44">2C</option>
+<option value="45">2D</option>
+<option value="46">2E</option>
+<option value="47">2F</option>
+<option value="48">30</option>
+<option value="49">31</option>
+<option value="50">32</option>
+<option value="51">33</option>
+<option value="52">34</option>
+<option value="53">35</option>
+<option value="54">36</option>
+<option value="55">37</option>
+<option value="56">38</option>
+<option value="57">39</option>
+<option value="58">3A</option>
+<option value="59">3B</option>
+<option value="60">3C</option>
+<option value="61">3D</option>
+<option value="62">3E</option>
+<option value="63">3F</option>
+<option value="64">40</option>
+<option value="65">41</option>
+<option value="66">42</option>
+<option value="67">43</option>
+<option value="68">44</option>
+<option value="69">45</option>
+<option value="70">46</option>
+<option value="71">47</option>
+<option value="72">48</option>
+<option value="73">49</option>
+<option value="74">4A</option>
+<option value="75">4B</option>
+<option value="76">4C</option>
+<option value="77">4D</option>
+<option value="78">4E</option>
+<option value="79">4F</option>
+<option value="80">50</option>
+<option value="81">51</option>
+<option value="82">52</option>
+<option value="83">53</option>
+<option value="84">54</option>
+<option value="85">55</option>
+<option value="86">56</option>
+<option value="87">57</option>
+<option value="88">58</option>
+<option value="89">59</option>
+<option value="90">5A</option>
+<option value="91">5B</option>
+<option value="92">5C</option>
+<option value="93">5D</option>
+<option value="94">5E</option>
+<option value="95">5F</option>
+<option value="96">60</option>
+<option value="97">61</option>
+<option value="98">62</option>
+<option value="99">63</option>
+<option value="100">64</option>
+<option value="101">65</option>
+<option value="102">66</option>
+<option value="103">67</option>
+<option value="104">68</option>
+<option value="105">69</option>
+<option value="106">6A</option>
+<option value="107">6B</option>
+<option value="108">6C</option>
+<option value="109">6D</option>
+<option value="110">6E</option>
+<option value="111">6F</option>
+<option value="112">70</option>
+<option value="113">71</option>
+<option value="114">72</option>
+<option value="115">73</option>
+<option value="116">74</option>
+<option value="117">75</option>
+<option value="118">76</option>
+<option value="119">77</option>
+<option value="120">78</option>
+<option value="121">79</option>
+<option value="122">7A</option>
+<option value="123">7B</option>
+<option value="124">7C</option>
+<option value="125">7D</option>
+<option value="126">7E</option>
+<option value="127">7F</option>
+<option value="128">80</option>
+<option value="129">81</option>
+<option value="130">82</option>
+<option value="131">83</option>
+<option value="132">84</option>
+<option value="133">85</option>
+<option value="134">86</option>
+<option value="135">87</option>
+<option value="136">88</option>
+<option value="137">89</option>
+<option value="138">8A</option>
+<option value="139">8B</option>
+<option value="140">8C</option>
+<option value="141">8D</option>
+<option value="142">8E</option>
+<option value="143">8F</option>
+<option value="144">90</option>
+<option value="145">91</option>
+<option value="146">92</option>
+<option value="147">93</option>
+<option value="148">94</option>
+<option value="149">95</option>
+<option value="150">96</option>
+<option value="151">97</option>
+<option value="152">98</option>
+<option value="153">99</option>
+<option value="154">9A</option>
+<option value="155">9B</option>
+<option value="156">9C</option>
+<option value="157">9D</option>
+<option value="158">9E</option>
+<option value="159">9F</option>
+<option value="160">A0</option>
+<option value="161">A1</option>
+<option value="162">A2</option>
+<option value="163">A3</option>
+<option value="164">A4</option>
+<option value="165">A5</option>
+<option value="166">A6</option>
+<option value="167">A7</option>
+<option value="168">A8</option>
+<option value="169">A9</option>
+<option value="170">AA</option>
+<option value="171">AB</option>
+<option value="172">AC</option>
+<option value="173">AD</option>
+<option value="174">AE</option>
+<option value="175">AF</option>
+<option value="176">B0</option>
+<option value="177">B1</option>
+<option value="178">B2</option>
+<option value="179">B3</option>
+<option value="180">B4</option>
+<option value="181">B5</option>
+<option value="182">B6</option>
+<option value="183">B7</option>
+<option value="184">B8</option>
+<option value="185">B9</option>
+<option value="186">BA</option>
+<option value="187">BB</option>
+<option value="188">BC</option>
+<option value="189">BD</option>
+<option value="190">BE</option>
+<option value="191">BF</option>
+<option value="192">C0</option>
+<option value="193">C1</option>
+<option value="194">C2</option>
+<option value="195">C3</option>
+<option value="196">C4</option>
+<option value="197">C5</option>
+<option value="198">C6</option>
+<option value="199">C7</option>
+<option value="200">C8</option>
+<option value="201">C9</option>
+<option value="202">CA</option>
+<option value="203">CB</option>
+<option value="204">CC</option>
+<option value="205">CD</option>
+<option value="206">CE</option>
+<option value="207">CF</option>
+<option value="208">D0</option>
+<option value="209">D1</option>
+<option value="210">D2</option>
+<option value="211">D3</option>
+<option value="212">D4</option>
+<option value="213">D5</option>
+<option value="214">D6</option>
+<option value="215">D7</option>
+<option value="216">D8</option>
+<option value="217">D9</option>
+<option value="218">DA</option>
+<option value="219">DB</option>
+<option value="220">DC</option>
+<option value="221">DD</option>
+<option value="222">DE</option>
+<option value="223">DF</option>
+<option value="224">E0</option>
+<option value="225">E1</option>
+<option value="226">E2</option>
+<option value="227">E3</option>
+<option value="228">E4</option>
+<option value="229">E5</option>
+<option value="230">E6</option>
+<option value="231">E7</option>
+<option value="232">E8</option>
+<option value="233">E9</option>
+<option value="234">EA</option>
+<option value="235">EB</option>
+<option value="236">EC</option>
+<option value="237">ED</option>
+<option value="238">EE</option>
+<option value="239">EF</option>
+<option value="240">F0</option>
+<option value="241">F1</option>
+<option value="242">F2</option>
+<option value="243">F3</option>
+<option value="244">F4</option>
+<option value="245">F5</option>
+<option value="246">F6</option>
+<option value="247">F7</option>
+<option value="248">F8</option>
+<option value="249">F9</option>
+<option value="250">FA</option>
+<option value="251">FB</option>
+<option value="252">FC</option>
+<option value="253">FD</option>
+<option value="254">FE</option>
+<option value="255">FF</option>
+
+            </select>
+            <select name="low2" onchange="UpdateType(&#39;range&#39;);">
+              <script>GenerateHexOptions();</script><option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">0A</option>
+<option value="11">0B</option>
+<option value="12">0C</option>
+<option value="13">0D</option>
+<option value="14">0E</option>
+<option value="15">0F</option>
+<option value="16">10</option>
+<option value="17">11</option>
+<option value="18">12</option>
+<option value="19">13</option>
+<option value="20">14</option>
+<option value="21">15</option>
+<option value="22">16</option>
+<option value="23">17</option>
+<option value="24">18</option>
+<option value="25">19</option>
+<option value="26">1A</option>
+<option value="27">1B</option>
+<option value="28">1C</option>
+<option value="29">1D</option>
+<option value="30">1E</option>
+<option value="31">1F</option>
+<option value="32">20</option>
+<option value="33">21</option>
+<option value="34">22</option>
+<option value="35">23</option>
+<option value="36">24</option>
+<option value="37">25</option>
+<option value="38">26</option>
+<option value="39">27</option>
+<option value="40">28</option>
+<option value="41">29</option>
+<option value="42">2A</option>
+<option value="43">2B</option>
+<option value="44">2C</option>
+<option value="45">2D</option>
+<option value="46">2E</option>
+<option value="47">2F</option>
+<option value="48">30</option>
+<option value="49">31</option>
+<option value="50">32</option>
+<option value="51">33</option>
+<option value="52">34</option>
+<option value="53">35</option>
+<option value="54">36</option>
+<option value="55">37</option>
+<option value="56">38</option>
+<option value="57">39</option>
+<option value="58">3A</option>
+<option value="59">3B</option>
+<option value="60">3C</option>
+<option value="61">3D</option>
+<option value="62">3E</option>
+<option value="63">3F</option>
+<option value="64">40</option>
+<option value="65">41</option>
+<option value="66">42</option>
+<option value="67">43</option>
+<option value="68">44</option>
+<option value="69">45</option>
+<option value="70">46</option>
+<option value="71">47</option>
+<option value="72">48</option>
+<option value="73">49</option>
+<option value="74">4A</option>
+<option value="75">4B</option>
+<option value="76">4C</option>
+<option value="77">4D</option>
+<option value="78">4E</option>
+<option value="79">4F</option>
+<option value="80">50</option>
+<option value="81">51</option>
+<option value="82">52</option>
+<option value="83">53</option>
+<option value="84">54</option>
+<option value="85">55</option>
+<option value="86">56</option>
+<option value="87">57</option>
+<option value="88">58</option>
+<option value="89">59</option>
+<option value="90">5A</option>
+<option value="91">5B</option>
+<option value="92">5C</option>
+<option value="93">5D</option>
+<option value="94">5E</option>
+<option value="95">5F</option>
+<option value="96">60</option>
+<option value="97">61</option>
+<option value="98">62</option>
+<option value="99">63</option>
+<option value="100">64</option>
+<option value="101">65</option>
+<option value="102">66</option>
+<option value="103">67</option>
+<option value="104">68</option>
+<option value="105">69</option>
+<option value="106">6A</option>
+<option value="107">6B</option>
+<option value="108">6C</option>
+<option value="109">6D</option>
+<option value="110">6E</option>
+<option value="111">6F</option>
+<option value="112">70</option>
+<option value="113">71</option>
+<option value="114">72</option>
+<option value="115">73</option>
+<option value="116">74</option>
+<option value="117">75</option>
+<option value="118">76</option>
+<option value="119">77</option>
+<option value="120">78</option>
+<option value="121">79</option>
+<option value="122">7A</option>
+<option value="123">7B</option>
+<option value="124">7C</option>
+<option value="125">7D</option>
+<option value="126">7E</option>
+<option value="127">7F</option>
+<option value="128">80</option>
+<option value="129">81</option>
+<option value="130">82</option>
+<option value="131">83</option>
+<option value="132">84</option>
+<option value="133">85</option>
+<option value="134">86</option>
+<option value="135">87</option>
+<option value="136">88</option>
+<option value="137">89</option>
+<option value="138">8A</option>
+<option value="139">8B</option>
+<option value="140">8C</option>
+<option value="141">8D</option>
+<option value="142">8E</option>
+<option value="143">8F</option>
+<option value="144">90</option>
+<option value="145">91</option>
+<option value="146">92</option>
+<option value="147">93</option>
+<option value="148">94</option>
+<option value="149">95</option>
+<option value="150">96</option>
+<option value="151">97</option>
+<option value="152">98</option>
+<option value="153">99</option>
+<option value="154">9A</option>
+<option value="155">9B</option>
+<option value="156">9C</option>
+<option value="157">9D</option>
+<option value="158">9E</option>
+<option value="159">9F</option>
+<option value="160">A0</option>
+<option value="161">A1</option>
+<option value="162">A2</option>
+<option value="163">A3</option>
+<option value="164">A4</option>
+<option value="165">A5</option>
+<option value="166">A6</option>
+<option value="167">A7</option>
+<option value="168">A8</option>
+<option value="169">A9</option>
+<option value="170">AA</option>
+<option value="171">AB</option>
+<option value="172">AC</option>
+<option value="173">AD</option>
+<option value="174">AE</option>
+<option value="175">AF</option>
+<option value="176">B0</option>
+<option value="177">B1</option>
+<option value="178">B2</option>
+<option value="179">B3</option>
+<option value="180">B4</option>
+<option value="181">B5</option>
+<option value="182">B6</option>
+<option value="183">B7</option>
+<option value="184">B8</option>
+<option value="185">B9</option>
+<option value="186">BA</option>
+<option value="187">BB</option>
+<option value="188">BC</option>
+<option value="189">BD</option>
+<option value="190">BE</option>
+<option value="191">BF</option>
+<option value="192">C0</option>
+<option value="193">C1</option>
+<option value="194">C2</option>
+<option value="195">C3</option>
+<option value="196">C4</option>
+<option value="197">C5</option>
+<option value="198">C6</option>
+<option value="199">C7</option>
+<option value="200">C8</option>
+<option value="201">C9</option>
+<option value="202">CA</option>
+<option value="203">CB</option>
+<option value="204">CC</option>
+<option value="205">CD</option>
+<option value="206">CE</option>
+<option value="207">CF</option>
+<option value="208">D0</option>
+<option value="209">D1</option>
+<option value="210">D2</option>
+<option value="211">D3</option>
+<option value="212">D4</option>
+<option value="213">D5</option>
+<option value="214">D6</option>
+<option value="215">D7</option>
+<option value="216">D8</option>
+<option value="217">D9</option>
+<option value="218">DA</option>
+<option value="219">DB</option>
+<option value="220">DC</option>
+<option value="221">DD</option>
+<option value="222">DE</option>
+<option value="223">DF</option>
+<option value="224">E0</option>
+<option value="225">E1</option>
+<option value="226">E2</option>
+<option value="227">E3</option>
+<option value="228">E4</option>
+<option value="229">E5</option>
+<option value="230">E6</option>
+<option value="231">E7</option>
+<option value="232">E8</option>
+<option value="233">E9</option>
+<option value="234">EA</option>
+<option value="235">EB</option>
+<option value="236">EC</option>
+<option value="237">ED</option>
+<option value="238">EE</option>
+<option value="239">EF</option>
+<option value="240">F0</option>
+<option value="241">F1</option>
+<option value="242">F2</option>
+<option value="243">F3</option>
+<option value="244">F4</option>
+<option value="245">F5</option>
+<option value="246">F6</option>
+<option value="247">F7</option>
+<option value="248">F8</option>
+<option value="249">F9</option>
+<option value="250">FA</option>
+<option value="251">FB</option>
+<option value="252">FC</option>
+<option value="253">FD</option>
+<option value="254">FE</option>
+<option value="255">FF</option>
+
+            </select>
+          </td>
+          <td>to</td>
+          <td>
+            <select name="high1" onchange="UpdateType(&#39;range&#39;);">
+              <script>GenerateHexOptions();</script><option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">0A</option>
+<option value="11">0B</option>
+<option value="12">0C</option>
+<option value="13">0D</option>
+<option value="14">0E</option>
+<option value="15">0F</option>
+<option value="16">10</option>
+<option value="17">11</option>
+<option value="18">12</option>
+<option value="19">13</option>
+<option value="20">14</option>
+<option value="21">15</option>
+<option value="22">16</option>
+<option value="23">17</option>
+<option value="24">18</option>
+<option value="25">19</option>
+<option value="26">1A</option>
+<option value="27">1B</option>
+<option value="28">1C</option>
+<option value="29">1D</option>
+<option value="30">1E</option>
+<option value="31">1F</option>
+<option value="32">20</option>
+<option value="33">21</option>
+<option value="34">22</option>
+<option value="35">23</option>
+<option value="36">24</option>
+<option value="37">25</option>
+<option value="38">26</option>
+<option value="39">27</option>
+<option value="40">28</option>
+<option value="41">29</option>
+<option value="42">2A</option>
+<option value="43">2B</option>
+<option value="44">2C</option>
+<option value="45">2D</option>
+<option value="46">2E</option>
+<option value="47">2F</option>
+<option value="48">30</option>
+<option value="49">31</option>
+<option value="50">32</option>
+<option value="51">33</option>
+<option value="52">34</option>
+<option value="53">35</option>
+<option value="54">36</option>
+<option value="55">37</option>
+<option value="56">38</option>
+<option value="57">39</option>
+<option value="58">3A</option>
+<option value="59">3B</option>
+<option value="60">3C</option>
+<option value="61">3D</option>
+<option value="62">3E</option>
+<option value="63">3F</option>
+<option value="64">40</option>
+<option value="65">41</option>
+<option value="66">42</option>
+<option value="67">43</option>
+<option value="68">44</option>
+<option value="69">45</option>
+<option value="70">46</option>
+<option value="71">47</option>
+<option value="72">48</option>
+<option value="73">49</option>
+<option value="74">4A</option>
+<option value="75">4B</option>
+<option value="76">4C</option>
+<option value="77">4D</option>
+<option value="78">4E</option>
+<option value="79">4F</option>
+<option value="80">50</option>
+<option value="81">51</option>
+<option value="82">52</option>
+<option value="83">53</option>
+<option value="84">54</option>
+<option value="85">55</option>
+<option value="86">56</option>
+<option value="87">57</option>
+<option value="88">58</option>
+<option value="89">59</option>
+<option value="90">5A</option>
+<option value="91">5B</option>
+<option value="92">5C</option>
+<option value="93">5D</option>
+<option value="94">5E</option>
+<option value="95">5F</option>
+<option value="96">60</option>
+<option value="97">61</option>
+<option value="98">62</option>
+<option value="99">63</option>
+<option value="100">64</option>
+<option value="101">65</option>
+<option value="102">66</option>
+<option value="103">67</option>
+<option value="104">68</option>
+<option value="105">69</option>
+<option value="106">6A</option>
+<option value="107">6B</option>
+<option value="108">6C</option>
+<option value="109">6D</option>
+<option value="110">6E</option>
+<option value="111">6F</option>
+<option value="112">70</option>
+<option value="113">71</option>
+<option value="114">72</option>
+<option value="115">73</option>
+<option value="116">74</option>
+<option value="117">75</option>
+<option value="118">76</option>
+<option value="119">77</option>
+<option value="120">78</option>
+<option value="121">79</option>
+<option value="122">7A</option>
+<option value="123">7B</option>
+<option value="124">7C</option>
+<option value="125">7D</option>
+<option value="126">7E</option>
+<option value="127">7F</option>
+<option value="128">80</option>
+<option value="129">81</option>
+<option value="130">82</option>
+<option value="131">83</option>
+<option value="132">84</option>
+<option value="133">85</option>
+<option value="134">86</option>
+<option value="135">87</option>
+<option value="136">88</option>
+<option value="137">89</option>
+<option value="138">8A</option>
+<option value="139">8B</option>
+<option value="140">8C</option>
+<option value="141">8D</option>
+<option value="142">8E</option>
+<option value="143">8F</option>
+<option value="144">90</option>
+<option value="145">91</option>
+<option value="146">92</option>
+<option value="147">93</option>
+<option value="148">94</option>
+<option value="149">95</option>
+<option value="150">96</option>
+<option value="151">97</option>
+<option value="152">98</option>
+<option value="153">99</option>
+<option value="154">9A</option>
+<option value="155">9B</option>
+<option value="156">9C</option>
+<option value="157">9D</option>
+<option value="158">9E</option>
+<option value="159">9F</option>
+<option value="160">A0</option>
+<option value="161">A1</option>
+<option value="162">A2</option>
+<option value="163">A3</option>
+<option value="164">A4</option>
+<option value="165">A5</option>
+<option value="166">A6</option>
+<option value="167">A7</option>
+<option value="168">A8</option>
+<option value="169">A9</option>
+<option value="170">AA</option>
+<option value="171">AB</option>
+<option value="172">AC</option>
+<option value="173">AD</option>
+<option value="174">AE</option>
+<option value="175">AF</option>
+<option value="176">B0</option>
+<option value="177">B1</option>
+<option value="178">B2</option>
+<option value="179">B3</option>
+<option value="180">B4</option>
+<option value="181">B5</option>
+<option value="182">B6</option>
+<option value="183">B7</option>
+<option value="184">B8</option>
+<option value="185">B9</option>
+<option value="186">BA</option>
+<option value="187">BB</option>
+<option value="188">BC</option>
+<option value="189">BD</option>
+<option value="190">BE</option>
+<option value="191">BF</option>
+<option value="192">C0</option>
+<option value="193">C1</option>
+<option value="194">C2</option>
+<option value="195">C3</option>
+<option value="196">C4</option>
+<option value="197">C5</option>
+<option value="198">C6</option>
+<option value="199">C7</option>
+<option value="200">C8</option>
+<option value="201">C9</option>
+<option value="202">CA</option>
+<option value="203">CB</option>
+<option value="204">CC</option>
+<option value="205">CD</option>
+<option value="206">CE</option>
+<option value="207">CF</option>
+<option value="208">D0</option>
+<option value="209">D1</option>
+<option value="210">D2</option>
+<option value="211">D3</option>
+<option value="212">D4</option>
+<option value="213">D5</option>
+<option value="214">D6</option>
+<option value="215">D7</option>
+<option value="216">D8</option>
+<option value="217">D9</option>
+<option value="218">DA</option>
+<option value="219">DB</option>
+<option value="220">DC</option>
+<option value="221">DD</option>
+<option value="222">DE</option>
+<option value="223">DF</option>
+<option value="224">E0</option>
+<option value="225">E1</option>
+<option value="226">E2</option>
+<option value="227">E3</option>
+<option value="228">E4</option>
+<option value="229">E5</option>
+<option value="230">E6</option>
+<option value="231">E7</option>
+<option value="232">E8</option>
+<option value="233">E9</option>
+<option value="234">EA</option>
+<option value="235">EB</option>
+<option value="236">EC</option>
+<option value="237">ED</option>
+<option value="238">EE</option>
+<option value="239">EF</option>
+<option value="240">F0</option>
+<option value="241">F1</option>
+<option value="242">F2</option>
+<option value="243">F3</option>
+<option value="244">F4</option>
+<option value="245">F5</option>
+<option value="246">F6</option>
+<option value="247">F7</option>
+<option value="248">F8</option>
+<option value="249">F9</option>
+<option value="250">FA</option>
+<option value="251">FB</option>
+<option value="252">FC</option>
+<option value="253">FD</option>
+<option value="254">FE</option>
+<option value="255">FF</option>
+
+            </select>
+            <select name="high2" onchange="UpdateType(&#39;range&#39;);">
+              <script>GenerateHexOptions();</script><option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">0A</option>
+<option value="11">0B</option>
+<option value="12">0C</option>
+<option value="13">0D</option>
+<option value="14">0E</option>
+<option value="15">0F</option>
+<option value="16">10</option>
+<option value="17">11</option>
+<option value="18">12</option>
+<option value="19">13</option>
+<option value="20">14</option>
+<option value="21">15</option>
+<option value="22">16</option>
+<option value="23">17</option>
+<option value="24">18</option>
+<option value="25">19</option>
+<option value="26">1A</option>
+<option value="27">1B</option>
+<option value="28">1C</option>
+<option value="29">1D</option>
+<option value="30">1E</option>
+<option value="31">1F</option>
+<option value="32">20</option>
+<option value="33">21</option>
+<option value="34">22</option>
+<option value="35">23</option>
+<option value="36">24</option>
+<option value="37">25</option>
+<option value="38">26</option>
+<option value="39">27</option>
+<option value="40">28</option>
+<option value="41">29</option>
+<option value="42">2A</option>
+<option value="43">2B</option>
+<option value="44">2C</option>
+<option value="45">2D</option>
+<option value="46">2E</option>
+<option value="47">2F</option>
+<option value="48">30</option>
+<option value="49">31</option>
+<option value="50">32</option>
+<option value="51">33</option>
+<option value="52">34</option>
+<option value="53">35</option>
+<option value="54">36</option>
+<option value="55">37</option>
+<option value="56">38</option>
+<option value="57">39</option>
+<option value="58">3A</option>
+<option value="59">3B</option>
+<option value="60">3C</option>
+<option value="61">3D</option>
+<option value="62">3E</option>
+<option value="63">3F</option>
+<option value="64">40</option>
+<option value="65">41</option>
+<option value="66">42</option>
+<option value="67">43</option>
+<option value="68">44</option>
+<option value="69">45</option>
+<option value="70">46</option>
+<option value="71">47</option>
+<option value="72">48</option>
+<option value="73">49</option>
+<option value="74">4A</option>
+<option value="75">4B</option>
+<option value="76">4C</option>
+<option value="77">4D</option>
+<option value="78">4E</option>
+<option value="79">4F</option>
+<option value="80">50</option>
+<option value="81">51</option>
+<option value="82">52</option>
+<option value="83">53</option>
+<option value="84">54</option>
+<option value="85">55</option>
+<option value="86">56</option>
+<option value="87">57</option>
+<option value="88">58</option>
+<option value="89">59</option>
+<option value="90">5A</option>
+<option value="91">5B</option>
+<option value="92">5C</option>
+<option value="93">5D</option>
+<option value="94">5E</option>
+<option value="95">5F</option>
+<option value="96">60</option>
+<option value="97">61</option>
+<option value="98">62</option>
+<option value="99">63</option>
+<option value="100">64</option>
+<option value="101">65</option>
+<option value="102">66</option>
+<option value="103">67</option>
+<option value="104">68</option>
+<option value="105">69</option>
+<option value="106">6A</option>
+<option value="107">6B</option>
+<option value="108">6C</option>
+<option value="109">6D</option>
+<option value="110">6E</option>
+<option value="111">6F</option>
+<option value="112">70</option>
+<option value="113">71</option>
+<option value="114">72</option>
+<option value="115">73</option>
+<option value="116">74</option>
+<option value="117">75</option>
+<option value="118">76</option>
+<option value="119">77</option>
+<option value="120">78</option>
+<option value="121">79</option>
+<option value="122">7A</option>
+<option value="123">7B</option>
+<option value="124">7C</option>
+<option value="125">7D</option>
+<option value="126">7E</option>
+<option value="127">7F</option>
+<option value="128">80</option>
+<option value="129">81</option>
+<option value="130">82</option>
+<option value="131">83</option>
+<option value="132">84</option>
+<option value="133">85</option>
+<option value="134">86</option>
+<option value="135">87</option>
+<option value="136">88</option>
+<option value="137">89</option>
+<option value="138">8A</option>
+<option value="139">8B</option>
+<option value="140">8C</option>
+<option value="141">8D</option>
+<option value="142">8E</option>
+<option value="143">8F</option>
+<option value="144">90</option>
+<option value="145">91</option>
+<option value="146">92</option>
+<option value="147">93</option>
+<option value="148">94</option>
+<option value="149">95</option>
+<option value="150">96</option>
+<option value="151">97</option>
+<option value="152">98</option>
+<option value="153">99</option>
+<option value="154">9A</option>
+<option value="155">9B</option>
+<option value="156">9C</option>
+<option value="157">9D</option>
+<option value="158">9E</option>
+<option value="159">9F</option>
+<option value="160">A0</option>
+<option value="161">A1</option>
+<option value="162">A2</option>
+<option value="163">A3</option>
+<option value="164">A4</option>
+<option value="165">A5</option>
+<option value="166">A6</option>
+<option value="167">A7</option>
+<option value="168">A8</option>
+<option value="169">A9</option>
+<option value="170">AA</option>
+<option value="171">AB</option>
+<option value="172">AC</option>
+<option value="173">AD</option>
+<option value="174">AE</option>
+<option value="175">AF</option>
+<option value="176">B0</option>
+<option value="177">B1</option>
+<option value="178">B2</option>
+<option value="179">B3</option>
+<option value="180">B4</option>
+<option value="181">B5</option>
+<option value="182">B6</option>
+<option value="183">B7</option>
+<option value="184">B8</option>
+<option value="185">B9</option>
+<option value="186">BA</option>
+<option value="187">BB</option>
+<option value="188">BC</option>
+<option value="189">BD</option>
+<option value="190">BE</option>
+<option value="191">BF</option>
+<option value="192">C0</option>
+<option value="193">C1</option>
+<option value="194">C2</option>
+<option value="195">C3</option>
+<option value="196">C4</option>
+<option value="197">C5</option>
+<option value="198">C6</option>
+<option value="199">C7</option>
+<option value="200">C8</option>
+<option value="201">C9</option>
+<option value="202">CA</option>
+<option value="203">CB</option>
+<option value="204">CC</option>
+<option value="205">CD</option>
+<option value="206">CE</option>
+<option value="207">CF</option>
+<option value="208">D0</option>
+<option value="209">D1</option>
+<option value="210">D2</option>
+<option value="211">D3</option>
+<option value="212">D4</option>
+<option value="213">D5</option>
+<option value="214">D6</option>
+<option value="215">D7</option>
+<option value="216">D8</option>
+<option value="217">D9</option>
+<option value="218">DA</option>
+<option value="219">DB</option>
+<option value="220">DC</option>
+<option value="221">DD</option>
+<option value="222">DE</option>
+<option value="223">DF</option>
+<option value="224">E0</option>
+<option value="225">E1</option>
+<option value="226">E2</option>
+<option value="227">E3</option>
+<option value="228">E4</option>
+<option value="229">E5</option>
+<option value="230">E6</option>
+<option value="231">E7</option>
+<option value="232">E8</option>
+<option value="233">E9</option>
+<option value="234">EA</option>
+<option value="235">EB</option>
+<option value="236">EC</option>
+<option value="237">ED</option>
+<option value="238">EE</option>
+<option value="239">EF</option>
+<option value="240">F0</option>
+<option value="241">F1</option>
+<option value="242">F2</option>
+<option value="243">F3</option>
+<option value="244">F4</option>
+<option value="245">F5</option>
+<option value="246">F6</option>
+<option value="247">F7</option>
+<option value="248">F8</option>
+<option value="249">F9</option>
+<option value="250">FA</option>
+<option value="251">FB</option>
+<option value="252">FC</option>
+<option value="253">FD</option>
+<option value="254">FE</option>
+<option value="255">FF</option>
+
+            </select>
+          </td>
+        </tr>
+      </tbody></table>
+      <br>
+
+      <b>Select the size of your keyboard</b><br>
+      <table>
+        <tbody><tr>
+          <td>Number of Keyboard Rows</td>
+          <td>
+            <select name="rows" onchange="UpdateKeyboard();">
+              <script>
+                for (var i=1; i<=100; i++) {
+                  document.write("<option value='" + i + "'>" + i + "</option>\n");
+                }
+              </script><option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+<option value="55">55</option>
+<option value="56">56</option>
+<option value="57">57</option>
+<option value="58">58</option>
+<option value="59">59</option>
+<option value="60">60</option>
+<option value="61">61</option>
+<option value="62">62</option>
+<option value="63">63</option>
+<option value="64">64</option>
+<option value="65">65</option>
+<option value="66">66</option>
+<option value="67">67</option>
+<option value="68">68</option>
+<option value="69">69</option>
+<option value="70">70</option>
+<option value="71">71</option>
+<option value="72">72</option>
+<option value="73">73</option>
+<option value="74">74</option>
+<option value="75">75</option>
+<option value="76">76</option>
+<option value="77">77</option>
+<option value="78">78</option>
+<option value="79">79</option>
+<option value="80">80</option>
+<option value="81">81</option>
+<option value="82">82</option>
+<option value="83">83</option>
+<option value="84">84</option>
+<option value="85">85</option>
+<option value="86">86</option>
+<option value="87">87</option>
+<option value="88">88</option>
+<option value="89">89</option>
+<option value="90">90</option>
+<option value="91">91</option>
+<option value="92">92</option>
+<option value="93">93</option>
+<option value="94">94</option>
+<option value="95">95</option>
+<option value="96">96</option>
+<option value="97">97</option>
+<option value="98">98</option>
+<option value="99">99</option>
+<option value="100">100</option>
+
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Number of Keyboard Columns</td>
+          <td>
+            <select name="columns" onchange="UpdateKeyboard();">
+              <script>
+                for (var i=1; i<=100; i++) {
+                  document.write("<option value='" + i + "'>" + i + "</option>\n");
+                }
+              </script><option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+<option value="55">55</option>
+<option value="56">56</option>
+<option value="57">57</option>
+<option value="58">58</option>
+<option value="59">59</option>
+<option value="60">60</option>
+<option value="61">61</option>
+<option value="62">62</option>
+<option value="63">63</option>
+<option value="64">64</option>
+<option value="65">65</option>
+<option value="66">66</option>
+<option value="67">67</option>
+<option value="68">68</option>
+<option value="69">69</option>
+<option value="70">70</option>
+<option value="71">71</option>
+<option value="72">72</option>
+<option value="73">73</option>
+<option value="74">74</option>
+<option value="75">75</option>
+<option value="76">76</option>
+<option value="77">77</option>
+<option value="78">78</option>
+<option value="79">79</option>
+<option value="80">80</option>
+<option value="81">81</option>
+<option value="82">82</option>
+<option value="83">83</option>
+<option value="84">84</option>
+<option value="85">85</option>
+<option value="86">86</option>
+<option value="87">87</option>
+<option value="88">88</option>
+<option value="89">89</option>
+<option value="90">90</option>
+<option value="91">91</option>
+<option value="92">92</option>
+<option value="93">93</option>
+<option value="94">94</option>
+<option value="95">95</option>
+<option value="96">96</option>
+<option value="97">97</option>
+<option value="98">98</option>
+<option value="99">99</option>
+<option value="100">100</option>
+
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Magnification</td>
+          <td>
+            <select name="percent" onchange="UpdateKeyboard()&#39;;&gt;
+              &lt;option value=" 25"="">25%
+              <option value="50">50%</option>
+              <option value="75">75%</option>
+              <option value="100" selected="selected">100%</option>
+              <option value="150">150%</option>
+              <option value="200">200%</option>
+              <option value="300">300%</option>
+              <option value="400">400%</option>
+              <option value="600">600%</option>
+              <option value="800">800%</option>
+            </select>
+          </td>
+        </tr>
+      </tbody></table>
+
+      <br>
+
+      <b>Select the keycaps for your virtual keyboard</b><br>
+      <span name="keyboard" id="keyboard"><table border="1"><tbody><tr><td><select name="key0_0" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_1" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_2" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_3" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_4" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_5" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_6" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_7" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_8" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key0_9" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+</tr></tbody></table><table border="1"><tbody><tr><td><select name="key1_0" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_1" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_2" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_3" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_4" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_5" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_6" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_7" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_8" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key1_9" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+</tr></tbody></table><table border="1"><tbody><tr><td><select name="key2_0" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_1" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_2" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_3" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_4" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_5" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_6" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_7" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_8" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+<td><select name="key2_9" onchange="GenerateCode();"><option></option>
+<option>05 90:֐</option>
+<option>05 91:֑</option>
+<option>05 92:֒</option>
+<option>05 93:֓</option>
+<option>05 94:֔</option>
+<option>05 95:֕</option>
+<option>05 96:֖</option>
+<option>05 97:֗</option>
+<option>05 98:֘</option>
+<option>05 99:֙</option>
+<option>05 9A:֚</option>
+<option>05 9B:֛</option>
+<option>05 9C:֜</option>
+<option>05 9D:֝</option>
+<option>05 9E:֞</option>
+<option>05 9F:֟</option>
+<option>05 A0:֠</option>
+<option>05 A1:֡</option>
+<option>05 A2:֢</option>
+<option>05 A3:֣</option>
+<option>05 A4:֤</option>
+<option>05 A5:֥</option>
+<option>05 A6:֦</option>
+<option>05 A7:֧</option>
+<option>05 A8:֨</option>
+<option>05 A9:֩</option>
+<option>05 AA:֪</option>
+<option>05 AB:֫</option>
+<option>05 AC:֬</option>
+<option>05 AD:֭</option>
+<option>05 AE:֮</option>
+<option>05 AF:֯</option>
+<option>05 B0:ְ</option>
+<option>05 B1:ֱ</option>
+<option>05 B2:ֲ</option>
+<option>05 B3:ֳ</option>
+<option>05 B4:ִ</option>
+<option>05 B5:ֵ</option>
+<option>05 B6:ֶ</option>
+<option>05 B7:ַ</option>
+<option>05 B8:ָ</option>
+<option>05 B9:ֹ</option>
+<option>05 BA:ֺ</option>
+<option>05 BB:ֻ</option>
+<option>05 BC:ּ</option>
+<option>05 BD:ֽ</option>
+<option>05 BE:־</option>
+<option>05 BF:ֿ</option>
+<option>05 C0:׀</option>
+<option>05 C1:ׁ</option>
+<option>05 C2:ׂ</option>
+<option>05 C3:׃</option>
+<option>05 C4:ׄ</option>
+<option>05 C5:ׅ</option>
+<option>05 C6:׆</option>
+<option>05 C7:ׇ</option>
+<option>05 C8:׈</option>
+<option>05 C9:׉</option>
+<option>05 CA:׊</option>
+<option>05 CB:׋</option>
+<option>05 CC:׌</option>
+<option>05 CD:׍</option>
+<option>05 CE:׎</option>
+<option>05 CF:׏</option>
+<option>05 D0:א</option>
+<option>05 D1:ב</option>
+<option>05 D2:ג</option>
+<option>05 D3:ד</option>
+<option>05 D4:ה</option>
+<option>05 D5:ו</option>
+<option>05 D6:ז</option>
+<option>05 D7:ח</option>
+<option>05 D8:ט</option>
+<option>05 D9:י</option>
+<option>05 DA:ך</option>
+<option>05 DB:כ</option>
+<option>05 DC:ל</option>
+<option>05 DD:ם</option>
+<option>05 DE:מ</option>
+<option>05 DF:ן</option>
+<option>05 E0:נ</option>
+<option>05 E1:ס</option>
+<option>05 E2:ע</option>
+<option>05 E3:ף</option>
+<option>05 E4:פ</option>
+<option>05 E5:ץ</option>
+<option>05 E6:צ</option>
+<option>05 E7:ק</option>
+<option>05 E8:ר</option>
+<option>05 E9:ש</option>
+<option>05 EA:ת</option>
+<option>05 EB:׫</option>
+<option>05 EC:׬</option>
+<option>05 ED:׭</option>
+<option>05 EE:׮</option>
+<option>05 EF:ׯ</option>
+<option>05 F0:װ</option>
+<option>05 F1:ױ</option>
+<option>05 F2:ײ</option>
+<option>05 F3:׳</option>
+<option>05 F4:״</option>
+<option>05 F5:׵</option>
+<option>05 F6:׶</option>
+<option>05 F7:׷</option>
+<option>05 F8:׸</option>
+<option>05 F9:׹</option>
+<option>05 FA:׺</option>
+<option>05 FB:׻</option>
+<option>05 FC:׼</option>
+<option>05 FD:׽</option>
+<option>05 FE:׾</option>
+<option>05 FF:׿</option>
+</select></td>
+</tr></tbody></table></span>
+      <input type="button" value="Clear Keycaps" onclick="ClearKeycaps();"><br>
+
+      <br>
+      <b>Copy this HTML code into a UTF-8 encoded text file.  This is your virtual keyboard</b><br>
+      <textarea name="code" rows="20" cols="80" wrap="off">      </textarea>
+
+    </form>
+
+    <font size="2">
+      © Stephen P. Morse, 2011
+    </font>
+    <br><a href="http://stevemorse.org/" target="_top"><img src="./Generating a Virtual Keyboard in One Step_files/favicon.jpg"></a>
+
+  
+
+</body></html>

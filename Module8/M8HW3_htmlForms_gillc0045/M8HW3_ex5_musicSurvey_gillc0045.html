@@ -1,0 +1,40 @@
+<html>
+	<header>
+		<title>Music Survey</title><meta charset="utf-8">
+	</header>
+
+<body>
+<h1>Music Survey</h1>
+<form>
+	Name: <br><input type="text" name="name" maxlength="30"><br>
+	E-mail: <br><input type="email" name="email"><br><br>
+	<fieldset>
+		<legend>Select Your Favorite Types of Music</legend>
+		  <input type="checkbox" name="genre" value="pop"> Pop<br>
+		  <input type="checkbox" name="genre" value="classical"> Classical<br>
+		  <input type="checkbox" name="genre" value="rock"> Rock<br>
+		  <input type="checkbox" name="genre" value="folk"> Folk<br>
+		  <input type="checkbox" name="genre" value="rap"> Rap<br>
+		  <input type="checkbox" name="genre" value="other"> Other
+	</fieldset><br>
+	<fieldset>
+		<legend>Select how often you purchase Music CDs</legend>
+		  <input type="radio" name="frequency" value="weekly"> Weekly<br>
+		  <input type="radio" name="frequency" value="few"> A few CDs each year<br>
+		  <input type="radio" name="frequency" value="monthly"> Monthly<br>
+		  <input type="radio" name="frequency" value="never"> Never purchase
+	</fieldset><br>
+	<p>Select the locations you listen to music:</p>
+	<select name="locations">
+		<option value="home">At home</option>
+		<option value="car">In the car</option>
+		<option value="anywhere">Anywhere (MP3 Player)</option>
+	</select>
+	<p>What role does music play in your life?</p>
+	<textarea name="roleplay" id="roleplay" rows="3" cols="60"></textarea><br><br>
+	<input type="submit" name="submit" value="Submit">
+	<input type="reset" name="reset" value="Reset">
+</form>
+
+</body>
+</html>

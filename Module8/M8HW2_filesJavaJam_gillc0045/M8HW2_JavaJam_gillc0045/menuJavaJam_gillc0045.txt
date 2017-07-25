@@ -1,0 +1,36 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+	<title>JavaJam Coffee House Menu</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<h1>JavaJam</h1>
+
+<nav><b>
+	<a href="indexJavaJam.html">Home</a>&emsp;
+	<a href="menuJavaJam.html">Menu</a>&emsp;
+	<a href="musicPage.html">Music</a>&emsp;
+	<a href="jobsPage.html">Jobs</a></b>
+</nav>
+
+<h2>Coffee at JavaJam</h2>
+<dl>
+<dt><strong>Just Java</strong></dt>
+	<br><dd>Regular house blend, decaffeinated coffee, or flavor of the day</dd>
+	<br><dd>Endless cup $2.00</dd>
+	<br><dt><strong>Cafe au Lait</strong></dt>
+	<br><dd>House blended coffee infused into a smooth, steamed milk</dd>
+	<br><dd>Single $2.00 Double $3.00</dd>
+	<br><dt><strong>Iced Cappuccino</strong></dt>
+	<br><dd>Sweetened espresso blended with icy-cold milk and served in a chilled glass</dd>
+	<br><dd>Single $4.75 Double $5.75</dd><br>
+</dl>
+
+<em><small>Copyright © 2016 JavaJam Coffee House</small></em>
+<nav><em><small>
+	<a href="myWebPage.html">CalvinGill@gill0045.com</a>
+</small></em></nav>
+</body>
+</html>
+ 

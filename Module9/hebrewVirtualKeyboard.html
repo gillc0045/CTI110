@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+    <script src='http://stevemorse.org/selection.js'></script>
+    <script>
+      function Keycap(letter) {
+        if (letter == '') {
+          document.write('<td>&nbsp;</td>')
+        } else {
+            document.write('<td><div align="left">' +
+                            '&nbsp;<a href="javascript:Insert(\'' + letter + '\');"><span style="font-size:100%">' + letter + '</span></a>&nbsp;' +
+                            '</div></td>');
+        }
+      }
+
+      function StartTable() {
+        document.write
+          ('<table borderColor="#000000" align="left"' +
+           ' cellSpacing="1" cellPadding="0" border="2" bgColor="#ffcc99"><tr>')
+      }
+
+      function EndTable() {
+        document.write('</tr></table><br><br><br>')
+      }
+
+      function NextRow() {
+        document.write('</tr><tr>')
+      }
+
+      var selectedField = '';
+
+      function Insert(letter) {
+        if (selectedField == '') {
+          alert('You need to select (click in) one of the allowable fields before you can use this keyboard.');
+          return;
+        }
+        var myText = selectedField.value;
+        var leftPos = getSelectionStart(selectedField);
+        var rightPos = getSelectionEnd(selectedField);
+        myText = myText.substring(0,leftPos) + letter + myText.substring(rightPos, myText.length);
+        selectedField.value = myText;
+        setSelectionRange(selectedField, leftPos+1, leftPos+1);
+        selectedField.focus();
+      }
+    </script>
+  </head>
+  <body>
+    <left>
+      To enter text with this virtual keybord,<br> select a field and then click on the characters you want<br>
+    </left>
+    <script>
+      StartTable();
+      Keycap('י');
+      Keycap('ט');
+      Keycap('ח');
+      Keycap('ז');
+      Keycap('ו');
+      Keycap('ה');
+      Keycap('ד');
+      Keycap('ג');
+      Keycap('ב');
+      Keycap('א');
+      NextRow();
+      Keycap('ף');
+      Keycap('ע');
+      Keycap('ס');
+      Keycap('נ');
+      Keycap('ן');
+      Keycap('מ');
+      Keycap('ם');
+      Keycap('ל');
+      Keycap('כ');
+      Keycap('ך');
+      NextRow();
+      Keycap('׭');
+      Keycap('׬');
+      Keycap('׫');
+      Keycap('ת');
+      Keycap('ש');
+      Keycap('ר');
+      Keycap('ק');
+      Keycap('צ');
+      Keycap('ץ');
+      Keycap('פ');
+      EndTable();
+    </script>
+    <br>
+    Some fields that can be typed in with the virtual keyboard<br>
+    left-to-right field <input onfocus='selectedField=this;' dir='ltr'><br>
+    right-to-left field <input onfocus='selectedField=this;' dir='rtl'><br>
+    <br>
+    Some fields that can not be typed in with the virtual keyboard<br>
+    left-to-right field <input onfocus='selectedField="";' dir='ltr'><br>
+    right-to-left field <input onfocus='selectedField="";' dir='rtl'><br>
+  </body>
+</html>

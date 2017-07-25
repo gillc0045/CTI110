@@ -1,0 +1,34 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+	<title> JavaJam Coffee House </title>
+	<meta charset="utf-8">
+</head>
+<body>
+<h1>JavaJam</h1>
+
+<nav><b>
+	<a href="index.html">Home</a>&emsp;
+	<a href="menuPage.html">Menu</a>&emsp;
+	<a href="musicPage.html">Music</a>&emsp;
+	<a href="jobsPage.html">Jobs</a></b></nav>
+
+<h2>Relax at JavaJam</h2>
+
+<ul>
+	<li>Specialty Coffee and Tea</li>
+	<li>Bagels, Muffins, and Organic Snacks</li>
+	<li>Music and Poetry Reading</li>
+	<li>Open Mic Night</li></ul>
+
+<p>54321 Route 42
+<br>Ellison Bay, WI 54210
+<br>888-555-5555</p>
+
+<em><small>Copyright © 2016 JavaJam Coffee House</small></em>
+<nav><em><small>
+	<a href="myWebPage.html">CalvinGill@gill0045.com</a>
+</small></em></nav>
+</body>
+</html>
+ 

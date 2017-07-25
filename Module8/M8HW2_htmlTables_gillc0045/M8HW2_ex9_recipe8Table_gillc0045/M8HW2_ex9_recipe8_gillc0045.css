@@ -1,0 +1,27 @@
+table 
+{  
+	font-family: Veranda, sans-serif;
+	color: rgb(0,0,153);
+	padding: 7px;
+	border: solid;
+	border-color: rgb(255,192,0);
+	border-width: medium;
+}
+caption 
+{ 
+	font-weight: bold;
+}
+th 
+{
+	text-align: left;
+}
+tfoot
+{
+	font-style: italic;
+	text-align: center;
+}
+a 
+{
+	color: rgb(0,0,153);
+}
+th, tr:nth-child(even){background-color: rgb(153,255,204)}

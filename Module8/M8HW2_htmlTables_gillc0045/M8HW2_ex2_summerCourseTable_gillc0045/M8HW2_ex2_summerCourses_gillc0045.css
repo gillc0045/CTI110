@@ -1,0 +1,20 @@
+table, th, td 
+{ 
+	border: none; 
+	font-family: Arial;
+	text-align: center;
+	padding: 7px;
+}
+caption 
+{ 
+	font-weight: bold;
+	color: rgb(68,114,196);
+	border-bottom-style: solid;
+	border-bottom-color: rgb(91,155,213);
+	border-width: thin;
+}
+table
+{
+	color: rgb(68,114,196);
+}
+th, tr:nth-child(even){background-color: rgb(221,221,221)}
